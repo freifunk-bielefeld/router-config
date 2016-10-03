@@ -1,0 +1,15 @@
+#!/bin/sh
+# This script is called from /etc/rc.local on boot after the Vyatta
+# configuration is fully applied. Any modifications done to work around
+# unfixed bugs and implement enhancements which are not complete in the Vyatta
+# system can be placed here.
+
+/etc/init.d/bird start
+/etc/init.d/bird6 start
+ip rule add from all lookup 100 prio 32764
+ip -6 rule add from all lookup 100 prio 32764
+ip rule add from 10.29.0.0/16 lookup 42 prio 32765
+ip rule add from 10.26.0.0/16 lookup 42 prio 32765
+ip -6 rule add from 2001:bf7:1320::/44 lookup 42 prio 32765
+
+iptables -t mangle -A POSTROUTING -p tcp --tcp-flags SYN,RST SYN -o tun+ -j TCPMSS --set-mss 1280
