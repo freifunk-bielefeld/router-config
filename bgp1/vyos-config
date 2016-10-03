@@ -1,0 +1,423 @@
+interfaces {
+    ethernet eth0 {
+        address 192.168.101.2/24
+        address 2001:4ba0:fff4:9b::2/64
+        description "Uplink Myloc"
+        duplex auto
+        hw-id 52:54:00:72:a2:1b
+        smp_affinity auto
+        speed auto
+    }
+    ethernet eth1 {
+        address 10.29.255.9/29
+        address fdef:17a0:ffb1:f006::1/64
+        description vmhost1-Switch
+        duplex auto
+        hw-id 52:54:00:48:59:5f
+        smp_affinity auto
+        speed auto
+    }
+    loopback lo {
+        address 89.163.130.160/32
+        address 2001:bf7:1320:42::1/128
+        address fdef:17a0:ffb1:42::1/128
+    }
+    tunnel tun0 {
+        address 2a03:2260:0:122::2/64
+        address 100.64.2.51/31
+        description ffrl-ber1
+        encapsulation gre
+        local-ip 89.163.130.160
+        mtu 1400
+        multicast disable
+        policy {
+            route mss
+        }
+        remote-ip 185.66.195.0
+    }
+    tunnel tun1 {
+        address 100.64.2.53/31
+        address 2a03:2260:0:123::2/64
+        description ffrl-ber2
+        encapsulation gre
+        local-ip 89.163.130.160
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.195.1
+    }
+    tunnel tun2 {
+        address 100.64.2.55/31
+        address 2a03:2260:0:124::2/64
+        description ffrl-dus1
+        encapsulation gre
+        local-ip 89.163.130.160
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.193.0
+    }
+    tunnel tun3 {
+        address 100.64.2.57/31
+        address 2a03:2260:0:125::2/64
+        description ffrl-dus2
+        encapsulation gre
+        local-ip 89.163.130.160
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.193.1
+    }
+    tunnel tun4 {
+        address 100.64.2.59/31
+        address 2a03:2260:0:126::2/64
+        description ffrl-fra1
+        encapsulation gre
+        local-ip 89.163.130.160
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.194.0
+    }
+    tunnel tun5 {
+        address 100.64.2.61/31
+        address 2a03:2260:0:127::2/64
+        description ffrl-fra2
+        encapsulation gre
+        local-ip 89.163.130.160
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.194.1
+    }
+    tunnel tun6 {
+        address 10.29.255.1/30
+        address fdef:17a0:ffb1:f002::1/64
+        description "ptp vpn6"
+        encapsulation gre
+        local-ip 89.163.130.160
+        multicast enable
+        remote-ip 78.47.221.155
+    }
+    tunnel tun7 {
+        address 10.29.255.57/30
+        address fdef:17a0:ffb1:f00a::1/64
+        description "ptp vpn1"
+        encapsulation gre
+        local-ip 89.163.130.160
+        multicast enable
+        remote-ip 5.9.226.91
+    }
+    tunnel tun8 {
+        address 10.29.255.53/30
+        address fdef:17a0:ffb1:f00c::1/64
+        description "ptp vpn4"
+        encapsulation gre
+        local-ip 89.163.130.160
+        multicast enable
+        remote-ip 5.9.226.93
+    }
+    tunnel tun9 {
+        address 2001:bf7:1320:23::1/64
+        description "6in4 vpn4"
+        encapsulation sit
+        local-ip 89.163.130.160
+        multicast disable
+        remote-ip 212.8.214.111
+    }
+    tunnel tun10 {
+        address fdef:17a0:ffb1:f007::1/64
+        address 10.29.255.33/30
+        description "ptp bgp2"
+        encapsulation gre
+        local-ip 89.163.130.160
+        multicast enable
+        remote-ip 5.9.226.90
+    }
+}
+nat {
+    source {
+        rule 8999 {
+            outbound-interface eth0
+            translation {
+                address 89.163.130.160
+            }
+        }
+        rule 9000 {
+            outbound-interface tun0
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9001 {
+            outbound-interface tun1
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9002 {
+            outbound-interface tun2
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9003 {
+            outbound-interface tun3
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9004 {
+            outbound-interface tun4
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9005 {
+            outbound-interface tun5
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9006 {
+            outbound-interface tun0
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9007 {
+            outbound-interface tun1
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9008 {
+            outbound-interface tun2
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9009 {
+            outbound-interface tun3
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9010 {
+            outbound-interface tun4
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+        rule 9011 {
+            outbound-interface tun5
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.68-185.66.193.69
+            }
+        }
+    }
+}
+policy {
+    route mss {
+        rule 5 {
+            protocol tcp
+            set {
+                tcp-mss 1280
+            }
+            tcp {
+                flags SYN
+            }
+        }
+        rule 10 {
+            protocol tcp
+            set {
+                tcp-mss 1280
+            }
+            tcp {
+                flags SYN,RST
+            }
+        }
+    }
+}
+protocols {
+    static {
+        route 0.0.0.0/0 {
+            next-hop 192.168.101.1 {
+            }
+        }
+        route6 ::/0 {
+            next-hop 2001:4ba0:fff4:9b::1 {
+            }
+        }
+    }
+}
+service {
+    snmp {
+        community routers {
+            authorization ro
+        }
+        listen-address 10.29.255.9 {
+            port 161
+        }
+        location MyLoc
+    }
+    ssh {
+        port 22
+    }
+}
+system {
+    config-management {
+        commit-revisions 20
+    }
+    console {
+        device ttyS0 {
+            speed 9600
+        }
+    }
+    host-name bgp1
+    login {
+        banner {
+            pre-login "This is bgp1.freifunk-bielefeld.de. Proceed only if you are allowed to do this!11!"
+        }
+        user bodems {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+            }
+            level admin
+        }
+        user mwarning {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+                public-keys mwarning@hop {
+                    key ****************
+                    type ssh-rsa
+                }
+            }
+            level admin
+        }
+    }
+    name-server 62.141.32.5
+    ntp {
+        server 0.pool.ntp.org {
+        }
+        server 1.pool.ntp.org {
+        }
+        server 2.pool.ntp.org {
+        }
+    }
+    package {
+        auto-sync 1
+        repository bird {
+            components main
+            distribution wheezy
+            password ****************
+            url http://bird.network.cz/debian
+            username ""
+        }
+        repository community {
+            components main
+            distribution helium
+            password ****************
+            url http://packages.vyos.net/vyos
+            username ""
+        }
+        repository wheezy-backports {
+            components main
+            distribution wheezy-backports
+            password ****************
+            url http://ftp.debian.org/debian
+            username ""
+        }
+        repository wheezy-main {
+            components main
+            distribution wheezy
+            password ****************
+            url http://httpredir.debian.org/debian
+            username ""
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level notice
+            }
+            facility protocols {
+                level debug
+            }
+        }
+    }
+    time-zone UTC
+}
