@@ -1,0 +1,481 @@
+interfaces {
+    ethernet eth0 {
+        address 5.9.226.90/29
+        address 2a01:4f8:160:24e7::3/64
+        description "Uplink Hetzner"
+        duplex auto
+        hw-id 52:54:00:a4:e1:e7
+        smp_affinity auto
+        speed auto
+    }
+    ethernet eth1 {
+        address 10.29.255.41/29
+        address fdef:17a0:ffb1:f000::1/64
+        description OSPF-Switch
+        duplex auto
+        hw-id 52:54:00:bb:6f:e2
+        smp_affinity auto
+        speed auto
+    }
+    loopback lo {
+        address fdef:17a0:ffb1:43::1/128
+        address 2001:bf7:1320:43::1/128
+        address 185.66.193.70/32
+        address 185.66.193.71/32
+    }
+    openvpn vtun0 {
+        description "DN42 Bodems (AS76124)"
+        local-address 172.23.146.251 {
+        }
+        local-port 2301
+        mode site-to-site
+        openvpn-option --persist-tun
+        openvpn-option --persist-key
+        openvpn-option --comp-lzo
+        openvpn-option --tun-ipv6
+        openvpn-option --float
+        remote-address 172.23.146.250
+        remote-host eris.quakente.net
+        remote-port 2399
+        shared-secret-key-file /config/auth/dn42/bodems.key
+    }
+    openvpn vtun1 {
+        description "DN42 siska (AS76103)"
+        local-address 172.23.2.235 {
+        }
+        local-port 33042
+        mode site-to-site
+        openvpn-option --persist-tun
+        openvpn-option --persist-key
+        openvpn-option comp-lzo
+        openvpn-option --tun-ipv6
+        remote-address 172.22.177.56
+        remote-host 89.212.170.109
+        remote-port 31141
+        shared-secret-key-file /config/auth/dn42/siska.key
+    }
+    openvpn vtun2 {
+        description "DN42 feuerrot (AS76140)"
+        local-address 172.22.251.205 {
+        }
+        local-port 33145
+        mode site-to-site
+        openvpn-option --persist-tun
+        openvpn-option persist-key
+        openvpn-option --comp-lzo
+        openvpn-option --tun-ipv6
+        remote-address 172.22.251.204
+        remote-host hbs.dn42.feuerrot.org
+        remote-port 53011
+        shared-secret-key-file /config/auth/dn42/feuerrot.key
+    }
+    openvpn vtun3 {
+        description "DN42 martin (AS76171)"
+        local-address 172.23.162.3 {
+        }
+        local-port 33142
+        mode site-to-site
+        openvpn-option --persist-tun
+        openvpn-option --persist-key
+        openvpn-option --comp-lzo
+        openvpn-option --tun-ipv6
+        openvpn-option --float
+        remote-address 172.23.162.1
+        shared-secret-key-file /config/auth/dn42/martin.key
+    }
+    openvpn vtun4 {
+        description "DN42 yang (AS64768)"
+        local-address 10.26.254.1 {
+        }
+        local-port 50002
+        mode site-to-site
+        openvpn-option --persist-tun
+        openvpn-option --persist-key
+        openvpn-option --comp-lzo
+        openvpn-option --tun-ipv6
+        remote-address 172.22.168.1
+        remote-host 193.189.137.151
+        remote-port 50002
+        shared-secret-key-file /config/auth/dn42/yang.key
+    }
+    tunnel tun0 {
+        address 100.64.2.39/31
+        address 2a03:2260:0:11c::2/64
+        description ffrl-ber1
+        encapsulation gre
+        local-ip 5.9.226.90
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.195.0
+    }
+    tunnel tun1 {
+        address 100.64.2.41/31
+        address 2a03:2260:0:11d::2/64
+        description ffrl-ber2
+        encapsulation gre
+        local-ip 5.9.226.90
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.195.1
+    }
+    tunnel tun2 {
+        address 100.64.2.43/31
+        address 2a03:2260:0:11e::2/64
+        description ffrl-dus1
+        encapsulation gre
+        local-ip 5.9.226.90
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.193.0
+    }
+    tunnel tun3 {
+        address 100.64.2.45/31
+        address 2a03:2260:0:11f::2/64
+        description ffrl-dus2
+        encapsulation gre
+        local-ip 5.9.226.90
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.193.1
+    }
+    tunnel tun4 {
+        address 100.64.2.47/31
+        address 2a03:2260:0:120::2/64
+        description ffrl-fra1
+        encapsulation gre
+        local-ip 5.9.226.90
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.194.0
+    }
+    tunnel tun5 {
+        address 100.64.2.49/31
+        address 2a03:2260:0:121::2/64
+        description ffrl-fra2
+        encapsulation gre
+        local-ip 5.9.226.90
+        mtu 1400
+        multicast disable
+        parameters {
+            ip {
+                ttl 255
+            }
+        }
+        policy {
+            route mss
+        }
+        remote-ip 185.66.194.1
+    }
+    tunnel tun6 {
+        address 10.29.255.34/30
+        address fdef:17a0:ffb1:f007::2/64
+        description "p2p bgp1"
+        encapsulation gre
+        local-ip 5.9.226.90
+        multicast enable
+        remote-ip 89.163.130.160
+    }
+    tunnel tun7 {
+        address 10.29.255.37/30
+        address fdef:17a0:ffb1:f008::1/64
+        description "p2p vpn7"
+        encapsulation gre
+        local-ip 5.9.226.90
+        multicast enable
+        remote-ip 89.163.128.201
+    }
+    tunnel tun8 {
+        address 10.29.255.49/30
+        address fdef:17a0:ffb1:f009::1/64
+        description "p2p vpn8"
+        encapsulation gre
+        local-ip 5.9.226.90
+        multicast disable
+        remote-ip 89.163.130.237
+    }
+    tunnel tun9 {
+        address 10.29.255.65/30
+        address fd74:40ee:b38a:ffff::1/64
+        description "p2p Hackerspace Bielefeld"
+        encapsulation ipip6
+        local-ip 2a01:4f8:160:24e7::3
+        mtu 1400
+        multicast disable
+        remote-ip 2a00:d58:1600:1403::1
+    }
+}
+nat {
+    source {
+        rule 9000 {
+            outbound-interface tun0
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9001 {
+            outbound-interface tun1
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9002 {
+            outbound-interface tun2
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9003 {
+            outbound-interface tun3
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9004 {
+            outbound-interface tun4
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9005 {
+            outbound-interface tun5
+            source {
+                address 10.29.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9006 {
+            outbound-interface tun0
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9007 {
+            outbound-interface tun1
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9008 {
+            outbound-interface tun2
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9009 {
+            outbound-interface tun3
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9010 {
+            outbound-interface tun4
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+        rule 9011 {
+            outbound-interface tun5
+            source {
+                address 10.26.0.0/16
+            }
+            translation {
+                address 185.66.193.70-185.66.193.71
+            }
+        }
+    }
+}
+policy {
+    route mss {
+        rule 5 {
+            protocol tcp
+            set {
+                tcp-mss 1280
+            }
+            tcp {
+                flags SYN
+            }
+        }
+        rule 10 {
+            protocol tcp
+            set {
+                tcp-mss 1280
+            }
+            tcp {
+                flags SYN,RST
+            }
+        }
+    }
+}
+protocols {
+    static {
+        route 0.0.0.0/0 {
+            next-hop 5.9.226.89 {
+            }
+        }
+        route6 ::/0 {
+            next-hop 2a01:4f8:160:24e7::1 {
+            }
+        }
+    }
+}
+service {
+    snmp {
+        community routers {
+            authorization ro
+        }
+        listen-address 10.29.255.41 {
+            port 161
+        }
+        location Hetzner
+    }
+    ssh {
+        port 22
+    }
+}
+system {
+    config-management {
+        commit-revisions 20
+    }
+    console {
+        device ttyS0 {
+            speed 9600
+        }
+    }
+    host-name bgp2.freifunk-bielefeld.de
+    login {
+        user bodems {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+            }
+            level admin
+        }
+        user mwarning {
+            authentication {
+                encrypted-password ****************
+                plaintext-password ****************
+                public-keys mwarning@hop {
+                    key ****************
+                    type ssh-rsa
+                }
+            }
+            level admin
+        }
+    }
+    name-server 194.150.168.168
+    ntp {
+        server 0.pool.ntp.org {
+        }
+        server 1.pool.ntp.org {
+        }
+        server 2.pool.ntp.org {
+        }
+    }
+    package {
+        auto-sync 1
+        repository bird {
+            components main
+            distribution wheezy
+            password ****************
+            url http://bird.network.cz/debian/
+            username ""
+        }
+        repository community {
+            components main
+            distribution helium
+            password ****************
+            url http://packages.vyos.net/vyos
+            username ""
+        }
+        repository wheezy {
+            components "main contrib non-free"
+            distribution jessie
+            password ****************
+            url http://ftp.de.debian.org/debian/
+            username ""
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level notice
+            }
+            facility protocols {
+                level debug
+            }
+        }
+    }
+    time-zone UTC
+}
